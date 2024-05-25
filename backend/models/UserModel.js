@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: [true, "Please enter your password"],
-        minLength: [6, "Password should be greater than 6 characters"],
+        minLength: [8, "Password should be greater than 8 characters"],
         select: false
     },
     avatar:{
@@ -45,6 +45,12 @@ const userSchema = new mongoose.Schema({
       resetPasswordToken: String,
       resetPasswordExpire: Date,
 })
-
+//we not use arrow function because we need to use "this" keyword
+userSchema.pre("save", async function(next){//whenever a new user is created this function will run
+    if(this.isModified("password")){ //when we update name or email then also it will run so we have to check , if password is modified then only it will run
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+    next();
+})
 
 module.exports = mongoose.model("User", userSchema);
