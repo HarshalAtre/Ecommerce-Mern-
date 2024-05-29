@@ -67,11 +67,11 @@ const productSchema = new mongoose.Schema({
     },
   ],
 
-//   user: {
-//     type: mongoose.Schema.ObjectId,
-//     ref: "User",
-//     required: true,
-//   },
+  user:{
+    type: mongoose.Schema.ObjectId,
+    ref: "User",//we are refering to user model , so it uses User model schema and we can use all the fields of that model
+    required: true
+},
   createdAt: {
     type: Date,
     default: Date.now,

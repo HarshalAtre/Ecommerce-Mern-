@@ -3,6 +3,7 @@ const CatchAsyncError=require("../middleware/catchAsycerror")
 const ApiFeatures = require("../utils/Apifeatures")
 //Create products--Admin
 exports.createProduct = CatchAsyncError(async(req, res) => {
+    req.body.user=req.user.id//setting user in body so that while creating product we have user:req.user.id and ref is set to "user"
     const product = await Product.create(req.body)
     res.status(200).json("Products")
 })
