@@ -1,6 +1,7 @@
 const Product=require("../models/ProductModel")
 const CatchAsyncError=require("../middleware/catchAsycerror")
 const ApiFeatures = require("../utils/Apifeatures")
+const { response } = require("express")
 //Create products--Admin
 exports.createProduct = CatchAsyncError(async(req, res) => {
     req.body.user=req.user.id//setting user in body so that while creating product we have user:req.user.id and ref is set to "user"
@@ -40,8 +41,128 @@ exports.getProductDetails= CatchAsyncError(async(req, res) => {
 //Get All products
 exports.getAllproducts =CatchAsyncError( async(req, res) => {
     const resultPerPage = 5
+    const productCount = await Product.countDocuments()
     const apifeatures= new ApiFeatures(Product.find(),req.query).search().filter().pagination(resultPerPage) //givig output of functions in Apifeature class
     const products=await apifeatures.query
-    res.status(200).json(products)
+    res.status(200).json(products,ProductCount)
 })
 
+
+// Create or Update Review
+exports.createOrUpdateReview = CatchAsyncError(async (req, res, next) => {
+    console.log(req.body)
+  
+      const { rating, comment, productid } = req.body;
+    
+      const review = {
+          user: req.user._id,
+          name: req.user.name,
+          rating: Number(rating),
+          comment,
+      }
+      console.log("first")
+      const product = await Product.findById(productid)
+         
+      console.log(product)
+      let isReviewed = product.reviews.find(// reviews is array , this is like forEach method but is finding too
+          (rev) => rev.user.toString() === req.user._id.toString() // checking if the user has already reviewed the product by checking user id 
+          // which is in review.user (check schema)
+      )
+      console.log("second")
+      
+      if (isReviewed) {// already reviewed then
+          product.reviews.forEach((rev) => {//itreating over all reviews 
+              if (rev.user.toString() === req.user._id.toString())// and updating the review of the login user only , by given rating and comment
+              (rev.rating = rating), (rev.comment = comment)
+          });
+      }
+  
+      else { // Else if the user has not reviewed the product yet , pusing the review in reviews array
+          product.reviews.push(review);
+          product.numOfReviews = product.reviews.length // updating number of reviews as new review is added
+      }
+  
+      let avg = 0;
+      
+      product.reviews.forEach((rev) => {
+          avg += rev.rating
+  
+      })
+      
+      product.ratings = avg / product.reviews.length // udating ratings by calculating avg
+      
+      await product.save({ validateBeforeSave: false });
+      
+      res.status(200).json({
+          success: true,
+      })
+  
+  })
+  
+  // get all reviews of a product
+  exports.getProductReviews = CatchAsyncError(async (req, res, next) => {
+     const product = await Product.findById(req.query.id)
+      
+      if (!product) {
+          return next(
+            res.status(404).json({
+              success: false,
+              message: "Product not found",
+            })
+          );
+     }
+     const reviews = product.reviews
+     res.status(200).json({
+         success: true,
+         reviews
+     })
+  })
+  
+  // delete a review of a product
+  exports.deleteReview = CatchAsyncError(async (req, res, next) => {
+      const product = await Product.findById(req.query.productId)
+      
+      if(!product){
+          return next(
+              res.status(404).json({
+                  success: false,
+                  message: "Product not found",
+              })
+          );
+      }
+      console.log(product)
+      let reviews = product.reviews
+      reviews = reviews.filter((rev)=> rev._id.toString() !== req.query.id.toString()) // filtering the review which is to be deleted,and storing others
+      // Now in reviews array we have all the reviews except the one which is to be deleted
+      let avg = 0;
+      
+      reviews.forEach((rev) => {
+          avg += rev.rating
+      })
+      
+      let ratings = 0;
+  
+      if (reviews.length === 0) {
+          ratings = 0
+      }
+      else {
+          ratings = avg / reviews.length
+      }
+  
+      const numOfReviews = reviews.length
+      
+      await Product.findByIdAndUpdate(req.query.productId, {
+          reviews,
+          ratings,
+          numOfReviews
+      }, {
+          new: true,
+          runValidators: true,
+          useFindAndModify: false
+      })
+      res.status(200).json({
+
+          success: true,
+          message: "Done",
+      })
+  })
