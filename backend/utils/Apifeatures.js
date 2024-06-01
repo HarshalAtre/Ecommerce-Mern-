@@ -10,7 +10,7 @@ class ApiFeatures {
                 $options: 'i'
             }
         }:{}
-         const query = this.query.find({...keyword})
+         this.query = this.query.find({...keyword})
          return this;
         }
     filter(){

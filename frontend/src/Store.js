@@ -13,11 +13,11 @@ let initialState={} // initial state
 
 const middleware=[thunk]  // middleware
 
-const Store=createStore( // creating Store combining all three above
+const store=createStore( // creating Store combining all three above
     reducer,
     initialState,
     composeWithDevTools(applyMiddleware(...middleware))
 
 )
 
-export default Store;//store.js
+export default store;//store.js

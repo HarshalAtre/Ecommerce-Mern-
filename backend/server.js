@@ -3,7 +3,9 @@ app=require('./app')
 dotenv=require('dotenv')
 dotenv.config({path:'./config.env'})
 connectDB=require('./database.js')
+const cors = require('cors');
 
+app.use(cors());
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
     console.log(`Error: ${err.message}`);
