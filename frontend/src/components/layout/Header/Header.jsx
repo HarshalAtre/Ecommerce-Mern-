@@ -2,6 +2,9 @@ import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from "../../../images/logo.png";
 import "./Header.css";
+import {MdAccountCircle } from "react-icons/md";
+import {MdSearch } from "react-icons/md";
+import {MdAddShoppingCart } from "react-icons/md";
 const options = {
   burgerColorHover: "#eb4034",
   logo,
@@ -33,6 +36,15 @@ const options = {
   searchIconColorHover: "#eb4034",
   cartIconColorHover: "#eb4034",
   cartIconMargin: "1vmax",
+  profileIcon:true,
+  profileIconColor: "rgba(35, 35, 35,0.8)",
+  ProfileIconElement: MdAccountCircle, 
+  searchIcon:true,
+  searchIconColor: "rgba(35, 35, 35,0.8)",
+  SearchIconElement:MdSearch,
+  cartIcon:true,
+  cartIconColor: "rgba(35, 35, 35,0.8)",
+  CartIconElement:MdAddShoppingCart,
 };
 
 const Header = () => {

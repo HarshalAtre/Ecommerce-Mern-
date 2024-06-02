@@ -9,7 +9,7 @@ router.route("/admin/product/:id")
 .put(isAuthtenticate,AuthorizeRole("admin"),updateProduct) 
 .delete(isAuthtenticate,AuthorizeRole("admin"),DeleteProduct)
 
-router.route("product/:id").get(getProductDetails)
+router.route("/product/:id").get(getProductDetails)
 router.put("/reviews",isAuthtenticate,createOrUpdateReview)
 router.route("/reviews").get(getProductReviews).delete(isAuthtenticate,deleteReview)
 module.exports=router;

@@ -2,50 +2,58 @@ import React, { useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import "./Home.css";
 import Metadata from "../Metadata.js";
-import {useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../action/ProductAction.js";
-
-// const product = {
-//     name: "Blue T shirt",
-//     images: [{
-//         url: "https://i.ibb.co/DRST11n/1.webp"
-//     }],
-//     price: '1,999',
-//     id: "abhishek" 
-// };
-
+import Product from "./ProductCard.js";
+import Loader from "../Loader/Loader.js";
+import { useAlert } from "react-alert";
 
 const Home = () => { 
- 
-  const dispatch = useDispatch();// dispatch is a function that allows us to dispatch actions to the redux store
-  const {loading,error,products,productsCount} = useSelector((state) => state.products);
- useEffect(()=>{
-   dispatch(getProducts()); // calling the action
- },[dispatch])
-  return (
-   <>
-
-          <Metadata title="Ecommerce"/> 
-          <div className="banner"> 
-            <p>Welcome to Ecommerce</p>
-            <h1>FIND AMAZING PRODUCTS BELOW</h1>
-
-            <a href="#container"> 
-              <button>
-                Scroll <CgMouse />
-              </button>
-            </a>
-          </div>
+  const alert = useAlert();// we can use useAlert here as we wraped components in index.js
+  const dispatch = useDispatch();
         
-          <h2 className="homeHeading">Featured Products</h2> 
+        const { loading, error, products, productCount } = useSelector((state) => state.Product); 
+ // As this four are present in ProductReducer, so we are using it.
 
-          <div className="container" id="container">
-            {/* {products && products.map((product) => (
-              <Product key={product._id} product={product} />
-            ))} */}
+ //The useEffect hook ensures the getProducts action is dispatched when the component mounts.
+  useEffect(() => {
+    
+    if(error){
+      alert.error(error);
+     dispatch(clearError());
+    }
+   
+    dispatch(getProducts()); 
 
-          </div>
-        </>
+
+  }, [dispatch,error,alert,error]);//
+
+  return (
+    <>
+    {(loading)?(<Loader/>): (<>
+      <Metadata title="Ecommerce"/> 
+      <div className="banner"> 
+        <p>Welcome to Ecommerce</p>
+        <h1>FIND AMAZING PRODUCTS BELOW</h1>
+        <a href="#container"> 
+          <button>
+            Scroll <CgMouse />
+          </button>
+        </a>
+      </div>
+        
+      <h2 className="homeHeading">Featured Products</h2> 
+       
+      <div className="container" id="container">
+      {products &&
+              products.map((product) => (
+                <Product product={product}/>
+              ))}
+    
+      </div>
+      </>)
+}
+    </>
   );
 };
 

@@ -8,9 +8,9 @@ class ApiFeatures {
             name: {
                 $regex: this.queryString.keyword, //it will search the name of the product
                 $options: 'i'
-            }
+            }  //This object can then be used as part of a MongoDB query to find all products where the name field contains the word "laptop" (case insensitive) if keyword is laptop
         }:{}
-         this.query = this.query.find({...keyword})
+         this.query = this.query.find({...keyword})//this.query.find({ ...keyword }) modifies the existing query to include the search criteria defined by the keyword object.
          return this;
         }
     filter(){

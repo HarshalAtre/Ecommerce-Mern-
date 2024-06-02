@@ -1,13 +1,14 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux'
 import {thunk} from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import { ProductReducer } from './reducers/Productreducer'
+import { ProductDetailReducer, ProductReducer } from './reducers/Productreducer'
 
 // 4 main things to make reducer , initial state , middleware , store 
 
-const reducer=combineReducers({  //reducers
-    ProductReducer
-})
+const reducer = combineReducers({ //reducer
+    Product:ProductReducer, // so we have to use state.Product when using useSelector hook to get data from store
+    ProductDetails:ProductDetailReducer
+  });
 
 let initialState={} // initial state
 
