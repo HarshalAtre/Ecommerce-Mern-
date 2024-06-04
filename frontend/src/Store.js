@@ -13,13 +13,19 @@ const reducer = combineReducers({ //reducer
     user:userReducer,
     profile:UpdateProfileReducer,
     cart:CartReducer,
+   
   });
 
 let initialState={
   cart:{//we have stored the data in local storage (can see in CartAction) so that when we refresh the page the data will be there
     cartItems:localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [], // if cartItems is not present in local storage then it will be an empty array
     // if cartItems is present in local storage then it will be an array of objects (as parsed)
-  }
+    
+    shippingInfo:localStorage.getItem("shippingInfo") ? JSON.parse(localStorage.getItem("shippingInfo")) : {} // if shippingInfo is not present in local storage then it will be an empty object
+  },
+
+ 
+
 } // initial state
 
 const middleware=[thunk]  // middleware
