@@ -9,7 +9,8 @@ import ReviewCard from './ReviewCard'; // Ensure this path is correct
 import Loader from '../layout/Loader/Loader';
 import { useAlert } from "react-alert";
 import Metadata from '../layout/Metadata';
-
+import { ADD_TO_CART } from '../../constants/CartConstants';
+import { AddToCart } from '../../action/CartAction';
 function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -28,15 +29,16 @@ function ProductDetails() {
   }, [dispatch, id,alert,error]);
 
   const decreaseQuantity = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
+    if (quantity > 1) setQuantity(quantity - 1); // should not go below 
   };
 
   const increaseQuantity = () => {
-    if (quantity < product.Stock) setQuantity(quantity + 1);
+    if (quantity < product.Stock) setQuantity(quantity + 1); // should not exceed stock limit
   };
 
   const addToCartHandler = () => {
-    // Implement add to cart functionality
+    alert.success("Item added to cart");
+    dispatch(AddToCart(id, quantity));
   };
 
   const submitReviewToggle = () => {

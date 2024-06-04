@@ -8,37 +8,53 @@ const ErrorHandler = require("../utils/Errorhandler")
 const sendEmail = require("../utils/sendEmail")
 const Products=require("../models/ProductModel")
 dotenv.config({path:'../config.env'})
-
+const cloudinary=require("cloudinary");
 
 //Register a User
 exports.Register= CatchAsyncError(async(req,res,next)=>{
-    
-    const{name, password,email}=req.body
-    const user=await User.create({
-        name,
-        password,
-        email,
-        avatar:{
-            public_id: "this is a sample id",
-            url:"https://res.cloudinary.com/dqh0k0qjx/image/upload/v1641508415/avatars/avatar_1_zjlqv.jpg"
-        }
-    })
+  console.log("register")
+  try {
+    const { name, email, password, avatar } = req.body;
+    if (!name || !email || !password || !avatar) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    });
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      },
+    });
 
     const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{ //token to save in local storage so we know user is logged in
-        expiresIn:"1d"
-    })
-    
-    const option={ //specifying options for cookie so that we can directly pass in it
-        httpOnly: true, // Helps prevent XSS // Send only over HTTPS
-        sameSite: 'strict', // CSRF protection
-        expires:new Date(Date.now()+ process.env.COOKIE_EXPIRE*24*60*60*1000) // calculate the expiration time in day 
-      }
+      expiresIn:"1d"
+  })
+  
+  const option={ //specifying options for cookie so that we can directly pass in it
+      httpOnly: true, // Helps prevent XSS // Send only over HTTPS
+      sameSite: 'strict', // CSRF protection
+      expires:new Date(Date.now()+ process.env.COOKIE_EXPIRE*24*60*60*1000) // calculate the expiration time in day 
+    }
 
-    res.cookie('token', token,option ).status(201).json({
-        success:true,
-        user,
-        token
-    })
+  res.cookie('token', token,option ).status(201).json({
+      success:true,
+      user,
+      token
+  })
+  } catch (error) {
+    console.error('Error during user registration:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+
 })
 
 
@@ -57,7 +73,7 @@ exports.Login=CatchAsyncError(async(req,res,next)=>{
     }
 
     const user=await User.findOne({email}).select("+password")//we have done select so that we can see password too now , 
-    //as we have done false in  select in user model
+    //as we have done false in  select in user model 
     
     if(!user){
         return res.status(401).json({
@@ -212,7 +228,7 @@ exports.resetPassword = CatchAsyncError(async (req, res, next) => {
     if (req.body.newPassword !== req.body.confirmPassword) {
         return res.status(400).json({
             success: false,
-            message: "Password does not match"
+            message: "Cofirm Password does not match"
         });
     }
 
@@ -240,11 +256,26 @@ exports.resetPassword = CatchAsyncError(async (req, res, next) => {
 });
 // Update profile --User
 exports.updateProfile = CatchAsyncError(async (req, res, next) => {
-    const newUserData = {
+    let newUserData = {
         name: req.body.name,
         email: req.body.email,
     };
-
+    
+    if (req.body.avatar !== "") {
+      const user = await User.findById(req.user.id);
+      const imageId = user.avatar.public_id;
+      await cloudinary.v2.uploader.destroy(imageId);
+    }
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    });
+    
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    }
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
         new: true,
         runValidators: true,
@@ -264,7 +295,7 @@ exports.getAllUsers = CatchAsyncError(async (req, res, next) => {
         users,
     })
 })
-//Sinngle user --Admin
+//Single user --Admin
 exports.getSingleUser = CatchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.params.id);
   
