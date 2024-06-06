@@ -1,0 +1,18 @@
+react components to use in project
+//Search for there docs for more
+1.import { ReactNavbar } from "overlay-navbar";
+2.import Carousel from 'react-material-ui-carousel';
+3.import Rating from '@mui/material/Rating'; 
+4.import Pagination from 'react-js-pagination'; // use materialui's instead
+5.import { Slider,Typography } from '@mui/material';
+6.import {Helmet} from 'react-helmet'
+7.Alert
+8.import { SpeedDial, SpeedDialAction } from "@material-ui/lab";
+9.import Backdrop from "@material-ui/core/Backdrop";
+10.import { Country, State } from "country-state-city";
+11.import { Typography, Stepper, StepLabel, Step } from "@material-ui/core";
+12.Strip for payment testing
+13.import { DataGrid } from "@material-ui/data-grid";
+14.import {Dialog,DialogActions,DialogContent,DialogTitle,Button} from "@material-ui/core";
+15.import { TreeView, TreeItem } from "@material-ui/lab";
+16.import { Doughnut, Line } from "react-chartjs-2"; need chart.js for this to work

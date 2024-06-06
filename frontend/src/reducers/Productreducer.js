@@ -1,5 +1,16 @@
 import { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, CLEAR_ERRORS,
      PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAIL,
+     NEW_REVIEW_REQUEST,
+     NEW_REVIEW_SUCCESS,
+     NEW_REVIEW_FAIL,
+     NEW_REVIEW_RESET,
+     ADMIN_PRODUCT_REQUEST,
+     ADMIN_PRODUCT_FAIL,
+     ADMIN_PRODUCT_SUCCESS,
+     NEW_PRODUCT_REQUEST,
+     NEW_PRODUCT_SUCCESS,
+     NEW_PRODUCT_FAIL,
+     NEW_PRODUCT_RESET,
  } from "../constants/ProducerConstants";
 
 const initialState = {
@@ -12,6 +23,7 @@ const initialState = {
 export const ProductReducer = (state = initialState, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQUEST:
+      case ADMIN_PRODUCT_REQUEST:
       return {
         ...state,
         loading: true,
@@ -26,7 +38,14 @@ export const ProductReducer = (state = initialState, action) => {
         filteredProductCount: action.payload.filteredProductCount,
 
       };
+    case ADMIN_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: action.payload,
+      }
     case ALL_PRODUCT_FAIL:
+      case ADMIN_PRODUCT_FAIL:
       return {
         ...state,
         loading: false,
@@ -72,3 +91,77 @@ export const ProductDetailReducer = (state = {product:{}}, action) => { // here 
       return state;
   }
 };
+
+//New REview reducer
+
+export const newReviewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case NEW_REVIEW_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case NEW_REVIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload,
+      };
+    case NEW_REVIEW_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case NEW_REVIEW_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+    case "CLEAR_ERRORS":
+      return {
+        ...state,
+        error: null,
+      }
+      default:
+        return state;  
+  }
+}
+
+
+//New Product Creation
+
+export const newProductReducer = (state = {product:{}}, action) => {
+  switch (action.type) {
+    case NEW_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case NEW_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+        product: action.payload.product,
+      };
+    case NEW_PRODUCT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case NEW_PRODUCT_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+    case "CLEAR_ERRORS":
+      return {
+        ...state,
+        error: null,
+      }
+      default:
+        return state;  
+  }
+}

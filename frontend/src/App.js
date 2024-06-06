@@ -1,12 +1,11 @@
 import logo from './logo.svg';
 import Header from './components/layout/Header/Header.jsx';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes,} from 'react-router-dom';
 import WebFont from "webfontloader"
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from './components/layout/Footer/Footer.jsx';
 import Home from './components/layout/Home/Home.js';
 import "./App.css"
-
 import Loader from './components/layout/Loader/Loader.js';
 import ProductDetails from './components/Product/ProductDetails.js';
 import Products from './components/Product/Products.js';
@@ -21,10 +20,28 @@ import UpdatedProfile from './components/Users/UpdatedProfile.js';
 import UpdatePassword from './components/Users/updatePassword.js';
 import Cart from './components/Cart/Cart.js';
 import Shipping from './components/Cart/Shipping.js';
+import ConfirmOrder from './components/Cart/OrderConfirm.js';
+import axios from 'axios';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Payment from './components/Cart/Payment.js';
+import ProtectedRoute from './components/Route/ProtectedRoute.js';
+import OrderSuccess from './components/Cart/OrderSuccess.js';
+import MyOrders from './components/Order/MyOrders.js';
+import OrderDetails from './components/Order/OrderDetails.js';
+import { Switch } from '@material-ui/core';
+import Dashboard from './components/Admin/Dashboard.js';
+import Productlist from './components/Admin/Productlist.js';
+import NewProduct from './components/Admin/NewProduct.js';
 function App() {
  
   const {isAuthenticated,user}=useSelector((state)=>state.user);
-   
+  const [ApiKey,setApiKey]=useState('')
+  const getApiKey=async()=>{
+    const {data} = await axios.get('/api/v1/stripeapikey');
+    setApiKey(data.stripeApiKey);
+    console.log(data.stripeApiKey)
+  } 
   useEffect(() => {
 
     WebFont.load({
@@ -33,7 +50,8 @@ function App() {
       }
     });
     store.dispatch(loadUser());
-    
+    // getApiKey()
+
   },[])
   
   
@@ -52,17 +70,30 @@ function App() {
         <Route  path='/login' element={<LoginSignUp/>}/>
 
       {/* Protected routes */}
-      {isAuthenticated &&  <Route  path='/account' element={<Profile/>}/>}
-      {isAuthenticated &&  <Route  path='/me/update' element={<UpdatedProfile/>}/>}
-      {isAuthenticated &&  <Route  path='/password/update' element={<UpdatePassword/>}/>}
-      {isAuthenticated &&  <Route  path='/cart' element={<Cart/>}/>}
-      {isAuthenticated &&  <Route  path='/login/shipping' element={<Shipping/>}/>}
-
+      {isAuthenticated==true && <Route  path='/account' element={<Profile/>}/>}
+      {isAuthenticated==true &&  <Route  path='/me/update' element={<UpdatedProfile/>}/>}
+      {isAuthenticated==true &&  <Route  path='/password/update' element={<UpdatePassword/>}/>}
+      {isAuthenticated==true &&  <Route  path='/Cart' element={<Cart/>}/>}
+      {isAuthenticated==true &&  <Route  path='/login/shipping' element={<Shipping/>}/>}
+      {isAuthenticated==true &&  <Route  path='/success' element={<OrderSuccess/>}/>}
+      {isAuthenticated==true &&  <Route  path='/orders' element={<MyOrders/>}/>}
      
+      {isAuthenticated==true &&  <Route  path='/order/confirm' element={<ConfirmOrder/>}/>}
+      {isAuthenticated==true &&  <Route  path='/order/:id' element={<OrderDetails/>}/>}
+      
+      {isAuthenticated==true &&  <Route  path='/admin/dashboard' element={<Dashboard/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/products' element={<Productlist/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/product' element={<NewProduct/>}/>}
 
 
-
-        
+      
+          <Route exact path="/process/payment" element={
+            <Elements stripe={loadStripe("pk_test_51PO5892Mx3ZlZWKCjXflODu4Xp3M9QVfhwv5E6roIeTm03GUhQhjuuQb8frqFTHS9BJAOsZ3KDcEjdaV1yVdokNr00XeeWt9o9")}>
+          <Payment/>
+          </Elements>
+          } />
+       
+     
 
       </Routes>
     <Footer/>

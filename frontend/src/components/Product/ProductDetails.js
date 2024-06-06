@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearError, getProductDetails } from '../../action/ProductAction';
+import { clearError, getProductDetails, newReview } from '../../action/ProductAction';
 import './ProductDetails.css';
 import Carousel from 'react-material-ui-carousel';
 import Rating from '@mui/material/Rating'; // Assuming you're using MUI's Rating component
@@ -11,22 +11,50 @@ import { useAlert } from "react-alert";
 import Metadata from '../layout/Metadata';
 import { ADD_TO_CART } from '../../constants/CartConstants';
 import { AddToCart } from '../../action/CartAction';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@material-ui/core";
+// import { Rating } from "@material-ui/lab";
+import { NEW_REVIEW_RESET } from "../../constants/ProducerConstants";
 function ProductDetails() {
+
+  const { success, error: reviewError } = useSelector(
+    (state) => state.newReview
+  );
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector(state => state.ProductDetails);
   const alert = useAlert();
   // Local state for quantity
   const [quantity, setQuantity] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+
 
   useEffect(() => {
     if(error){
      alert.error(error);
      dispatch(clearError());
     }
+    if(reviewError){
+      alert.error(reviewError);
+      dispatch(clearError());
+    }
+    if(success){
+      alert.success("Review Submitted Successfully");
+      dispatch({type:NEW_REVIEW_RESET})
+    }
     dispatch(getProductDetails(id));
 
-  }, [dispatch, id,alert,error]);
+  }, [dispatch, id,alert,error,reviewError,success]);
+
+
 
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1); // should not go below 
@@ -42,17 +70,29 @@ function ProductDetails() {
   };
 
   const submitReviewToggle = () => {
-    // Implement review toggle functionality
+    open? setOpen(false): setOpen(true);
   };
 
+  const reviewSubmitHandler = () => {
+    const myForm = new FormData();
+
+    myForm.set("rating", rating);
+    myForm.set("comment", comment);
+    myForm.set("productid", id);
+
+    dispatch(newReview(myForm));
+
+    setOpen(false);
+  };
   const options = {
     value: product.ratings || 0, // Ensure ratings are handled correctly
     readOnly: true,
     precision: 0.5,
   };
-
+ 
   return (
     <Fragment>
+      
       <Metadata title={`${product.name} -- ECOMMERCE`} />
       {loading ? (
        <Loader/>
@@ -118,7 +158,36 @@ function ProductDetails() {
           </div>
         </div>
       )}
-      
+        <Dialog
+            aria-labelledby="simple-dialog-title"
+            open={open}
+            onClose={submitReviewToggle} // if we click anywhere else it closes
+          >
+            <DialogTitle>Submit Review</DialogTitle>
+            <DialogContent className="submitDialog">
+              <Rating
+                onChange={(e) => setRating(e.target.value)}
+                value={rating}
+                size="large"
+              />
+
+              <textarea
+                className="submitDialogTextArea"
+                cols="30"
+                rows="5"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={submitReviewToggle} color="secondary">
+                Cancel
+              </Button>
+              <Button onClick={reviewSubmitHandler} color="primary">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
       {product.reviews && product.reviews.length > 0 ? (
         <div className="reviews">
           {product.reviews.map((review) => (
@@ -131,5 +200,5 @@ function ProductDetails() {
     </Fragment>
   );
 }
-
+ 
 export default ProductDetails;

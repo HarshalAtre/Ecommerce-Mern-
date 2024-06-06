@@ -3,7 +3,7 @@ app=require('./app')
 dotenv=require('dotenv')
 dotenv.config({path:'./config.env'})
 connectDB=require('./database.js')
-const cors = require('cors');
+const cors = require('cors'); 
 const cloudinary=require("cloudinary");
 app.use(cors());
 // Handling Uncaught Exception

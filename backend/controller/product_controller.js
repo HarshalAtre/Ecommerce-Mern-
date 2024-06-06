@@ -2,12 +2,41 @@ const Product=require("../models/ProductModel")
 const CatchAsyncError=require("../middleware/catchAsycerror")
 const ApiFeatures = require("../utils/Apifeatures")
 const { response } = require("express")
+const cloudinary = require("cloudinary")
 //Create products--Admin
-exports.createProduct = CatchAsyncError(async(req, res) => {
-    req.body.user=req.user.id//setting user in body so that while creating product we have user:req.user.id and ref is set to "user"
-    const product = await Product.create(req.body)
-    res.status(200).json("Products")
-})
+exports.createProduct=CatchAsyncError(async (req,res,next) =>{
+
+    let images = [];
+  
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images;
+    }
+  
+    const imagesLinks = [];
+  
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "avatars",
+      });
+  
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+  
+    req.body.images = imagesLinks;
+  
+  
+      req.body.user=req.user.id;
+      const product=await Product.create(req.body);
+      res.status(201).json({
+          success:true,
+          product
+      })
+  })
 
 //Update Products--Admin
 exports.updateProduct =CatchAsyncError( async(req, res) => {
@@ -56,7 +85,15 @@ exports.getAllproducts =CatchAsyncError( async(req, res) => {
         filteredProductCount
     })
 })
-
+// Get All products (Admin)
+exports.getAdminproducts =CatchAsyncError( async(req, res) => {
+    const products = await Product.find()
+ 
+    res.status(200).json({
+        success: true,
+        products,
+    })
+})
 
 // Create or Update Review
 exports.createOrUpdateReview = CatchAsyncError(async (req, res, next) => {
