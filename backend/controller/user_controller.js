@@ -334,20 +334,21 @@ exports.updateUserRole = CatchAsyncError(async (req, res, next) => {
 })
 // Delete user --Admin
 exports.deleteUser = CatchAsyncError(async (req, res, next) => {
-    const user = await User.findByIdAndDelete(req.params.id);
-    
-    if (!user) {
-        return next(
-          res.status(404).json({
-            success: false,
-            message: "User not found",
-          })
-        );
-    }
-    
-    await user.remove();
-    
-    res.status(200).json({
-        success: true,
-    })
-})
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+  }
+
+  if (user.avatar && user.avatar.public_id) {
+      const imageId = user.avatar.public_id;
+      await cloudinary.v2.uploader.destroy(imageId);
+  }
+
+  await User.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+  });
+});

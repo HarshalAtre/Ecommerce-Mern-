@@ -18,7 +18,7 @@ exports.createProduct=CatchAsyncError(async (req,res,next) =>{
   
     for (let i = 0; i < images.length; i++) {
       const result = await cloudinary.v2.uploader.upload(images[i], {
-        folder: "avatars",
+        folder: "products",
       });
   
       imagesLinks.push({
@@ -38,17 +38,56 @@ exports.createProduct=CatchAsyncError(async (req,res,next) =>{
       })
   })
 
-//Update Products--Admin
-exports.updateProduct =CatchAsyncError( async(req, res) => {
-    let product = await Product.findById(req.params.id)
+// Update Products--Admin
+exports.updateProduct = CatchAsyncError(async (req, res) => {
+    let product = await Product.findById(req.params.id);
     if (!product) {
-        return res.status(404).json("Product not found")
+      return res.status(404).json("Product not found");
     }
+  
+    // Images Start Here
+    let images = [];
+  
+    // Flatten the array if it contains nested arrays
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else if (Array.isArray(req.body.images)) {
+      images = req.body.images.flat();
+    }
+  
+    if (images.length > 0) {
+      // Deleting Images From Cloudinary
+      for (let i = 0; i < product.images.length; i++) {
+        await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+      }
+  
+      const imagesLinks = [];
+  
+      for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+          folder: "products",
+        });
+  
+        imagesLinks.push({
+          public_id: result.public_id,
+          url: result.secure_url,
+        });
+      }
+  
+      req.body.images = imagesLinks;
+    }
+  
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-    })
-    res.status(200).json(product)
-})
+      new: true,
+    });
+  
+    res.status(201).json({
+      success: true,
+      product,
+    });
+  });
+  
+  
 //Delete product--Admin
 
 exports.DeleteProduct= CatchAsyncError(async(req, res) => {
@@ -56,8 +95,15 @@ exports.DeleteProduct= CatchAsyncError(async(req, res) => {
     if (!product) {
         return res.status(404).json("Product not found")
     }
+    //delete images from cloudnary
+    for (let i = 0; i < product.images.length; i++) {
+      
+        await cloudinary.v2.uploader.destroy(product.images[i].public_id)
+    }
     await product.deleteOne()
-    res.status(200).json("Product deleted")
+    res.status(200).json({
+        success: true,
+    })
 })
 //Get product Details
 exports.getProductDetails= CatchAsyncError(async(req, res) => {
@@ -97,7 +143,7 @@ exports.getAdminproducts =CatchAsyncError( async(req, res) => {
 
 // Create or Update Review
 exports.createOrUpdateReview = CatchAsyncError(async (req, res, next) => {
-    console.log(req.body)
+
   
       const { rating, comment, productid } = req.body;
     
@@ -107,15 +153,12 @@ exports.createOrUpdateReview = CatchAsyncError(async (req, res, next) => {
           rating: Number(rating),
           comment,
       }
-      console.log("first")
       const product = await Product.findById(productid)
          
-      console.log(product)
       let isReviewed = product.reviews.find(// reviews is array , this is like forEach method but is finding too
           (rev) => rev.user.toString() === req.user._id.toString() // checking if the user has already reviewed the product by checking user id 
           // which is in review.user (check schema)
       )
-      console.log("second")
       
       if (isReviewed) {// already reviewed then
           product.reviews.forEach((rev) => {//itreating over all reviews 

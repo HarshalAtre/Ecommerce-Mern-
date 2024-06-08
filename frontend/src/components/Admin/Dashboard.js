@@ -10,11 +10,14 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { getAdminProduct } from '../../action/ProductAction';
+import { getAllOrders } from '../../action/OrderAction';
 function Dashboard() {
     const dispatch = useDispatch();
     const alert = useAlert();
     const { error,products } = useSelector((state) => state.Product);
+    const { orders } = useSelector((state) => state.allOrders);
 
+    const { users } = useSelector((state) => state.allUsers);
     let outOfStock = 0;
 
     products &&
@@ -23,6 +26,11 @@ function Dashboard() {
             outOfStock+=1;
         }
     });
+    let totalAmount = 0;
+        orders &&
+          orders.forEach((item) => {
+            totalAmount += item.totalPrice;
+          });
     const lineState = {
         labels: ["Initial Amount", "Amount Earned"],
         datasets: [
@@ -30,7 +38,7 @@ function Dashboard() {
             label: "TOTAL AMOUNT",
             backgroundColor: ["green"],
             hoverBackgroundColor: ["rgb(197, 72, 49)"],
-            data: [0,4000],
+            data: [0,totalAmount],
           },
         ],
       };
@@ -51,8 +59,13 @@ function Dashboard() {
           alert.error(error);
           dispatch(clearError());
         }
+
         dispatch(getAdminProduct());
+        dispatch(getAllOrders());
+
       }, [dispatch, alert, error]);
+
+      
   return (
     <div className="dashboard">
     <Metadata title="Dashboard - Admin Panel" />
@@ -64,7 +77,7 @@ function Dashboard() {
       <div className="dashboardSummary">
         <div>
           <p>
-            Total Amount <br /> ₹
+            Total Amount <br />  ₹{totalAmount}
           </p>
         </div>
         <div className="dashboardSummaryBox2">
@@ -74,11 +87,11 @@ function Dashboard() {
           </Link>
           <Link to="/admin/orders">
             <p>Orders</p>
-            <p></p>
+            <p>{orders && orders.length}</p>
           </Link>
           <Link to="/admin/users">
             <p>Users</p>
-            <p></p>
+            <p>{users && users.length}</p>
           </Link>
         </div>
       </div>

@@ -14,11 +14,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
 import Metadata from "../layout/Metadata";
+import { DELETE_PRODUCT_RESET } from "../../constants/ProducerConstants";
 function Productlist() {
     const dispatch = useDispatch();
     const alert = useAlert();
     const navigate = useNavigate();
     const { error, products } = useSelector((state) => state.Product);
+    const { error: deleteError,isDeleted,loading } = useSelector((state) => state.UpdateProduct);
     const columns = [
         { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
         {
@@ -77,14 +79,27 @@ function Productlist() {
       });
     });
 
+    const deleteProductHandler = (id) => {
+      dispatch(deleteProduct(id));
+    }
+
     useEffect(() => {
     
       if (error) {
         alert.error(error);
         dispatch(clearError());
       }
+      if (deleteError) {
+        alert.error(deleteError);
+        dispatch(clearError());
+      }
+      if (isDeleted) {
+        alert.success("Product Deleted Successfully");
+        navigate("/admin/dashboard");
+        dispatch({ type: DELETE_PRODUCT_RESET });
+      }
       dispatch(getAdminProduct());
-    }, [dispatch, alert, error]);
+    }, [dispatch, alert, error,isDeleted,deleteError]);
     return (
         <Fragment>
           <Metadata title={`ALL PRODUCTS - Admin`} />

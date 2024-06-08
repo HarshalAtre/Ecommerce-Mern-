@@ -1,10 +1,10 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux'
 import {thunk} from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import {  ProductDetailReducer, ProductReducer, newProductReducer, newReviewReducer } from './reducers/Productreducer'
-import { UpdateProfileReducer, userReducer } from './reducers/UserReducer';
+import {  ProductDetailReducer, ProductReducer, UpdateProductReducer, newProductReducer, newReviewReducer, productReviewsReducer, reviewReducer } from './reducers/Productreducer'
+import { UpdateProfileReducer, allUsersReducer, userDetailsReducer, userReducer } from './reducers/UserReducer';
 import { CartReducer } from './reducers/CartReducer';
-import { GetOrderReducer, myOrdersReducer, newOrderReducer } from './reducers/OrderReducer';
+import { GetOrderReducer, allOrdersReducer, myOrdersReducer, newOrderReducer, orderReducer } from './reducers/OrderReducer';
 
 // 4 main things to make reducer , initial state , middleware , store 
 
@@ -18,7 +18,15 @@ const reducer = combineReducers({ //reducer
     myOrders:myOrdersReducer,
     orderDetails:GetOrderReducer,
     newReview:newReviewReducer,
-    newProduct:newProductReducer
+    newProduct:newProductReducer,
+    UpdateProduct:UpdateProductReducer,
+    allOrders:allOrdersReducer,
+    order:orderReducer,
+    allUsers: allUsersReducer,
+    userDetails: userDetailsReducer,
+    productReviews: productReviewsReducer,
+    review: reviewReducer,
+
   });
 
 let initialState={

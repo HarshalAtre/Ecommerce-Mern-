@@ -33,6 +33,12 @@ import { Switch } from '@material-ui/core';
 import Dashboard from './components/Admin/Dashboard.js';
 import Productlist from './components/Admin/Productlist.js';
 import NewProduct from './components/Admin/NewProduct.js';
+import UpdateProduct from './components/Admin/UpdateProduct.js';
+import OrderList from './components/Admin/OrderList.js';
+import ProcessOrder from './components/Admin/ProcessOrder.js';
+import UsersList from './components/Admin/UserList.js';
+import UpdateUser from './components/Admin/UpdateUser.js';
+import ProductReviews from './components/Admin/ProductReviews.js';
 function App() {
  
   const {isAuthenticated,user}=useSelector((state)=>state.user);
@@ -51,7 +57,7 @@ function App() {
     });
     store.dispatch(loadUser());
     // getApiKey()
-
+    window.addEventListener("contextmenu", (e) => e.preventDefault());
   },[])
   
   
@@ -84,7 +90,15 @@ function App() {
       {isAuthenticated==true &&  <Route  path='/admin/dashboard' element={<Dashboard/>}/>}
       {isAuthenticated==true &&  <Route  path='/admin/products' element={<Productlist/>}/>}
       {isAuthenticated==true &&  <Route  path='/admin/product' element={<NewProduct/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/product/:id' element={<UpdateProduct/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/orders' element={<OrderList/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/order/:id' element={<ProcessOrder/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/users' element={<UsersList/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/user/:id' element={<UpdateUser/>}/>}
+      {isAuthenticated==true &&  <Route  path='/admin/reviews' element={<ProductReviews/>}/>}
 
+      
+      
 
       
           <Route exact path="/process/payment" element={
