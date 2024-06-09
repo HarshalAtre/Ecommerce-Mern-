@@ -104,7 +104,19 @@
     margin: 1vmax;
     outline: none;
   }
-  
+  .senti{
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: all 0.5s;
+    background-color: tomato;
+    font: 500 0.7vmax "Roboto";
+    border-radius: 5px;
+    padding: 0.5vmax 1vmax;
+    margin: 1vmax;
+    outline: none;
+
+  }
   .detailsBlock-3-1 > button:last-child:hover {
     background-color: rgb(214, 84, 61);
   }

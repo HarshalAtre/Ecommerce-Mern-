@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearError, getProductDetails, newReview } from '../../action/ProductAction';
+import { clearError, getAllReviews, getProductDetails, newReview } from '../../action/ProductAction';
 import './ProductDetails.css';
 import Carousel from 'react-material-ui-carousel';
 import Rating from '@mui/material/Rating'; // Assuming you're using MUI's Rating component
@@ -20,12 +20,40 @@ import {
 } from "@material-ui/core";
 // import { Rating } from "@material-ui/lab";
 import { NEW_REVIEW_RESET } from "../../constants/ProducerConstants";
+import axios from 'axios';
+import Speedometer from './Speedometer';
 function ProductDetails() {
-
+  const[speed,setSpeed] = useState(false);
   const { success, error: reviewError } = useSelector(
     (state) => state.newReview
   );
+  const {reviews: r} = useSelector(state => state.productReviews);
+  const [reviews, setReviews] = useState({
+    review: []
+  });
 
+  const [response, setResponse] = useState(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setReviews({
+      review: []
+    })
+
+    setSpeed(true)
+    r.forEach(rev => {
+        reviews.review.push(rev.comment)
+    });
+    console.log(reviews)
+
+    try {
+      setResponse( await axios.post('http://127.0.0.1:5001/predict', reviews, {
+        headers: { 'Content-Type': 'application/json' }
+      }))
+      console.log(response.data.overall_sentiment)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   const { id } = useParams();
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector(state => state.ProductDetails);
@@ -36,7 +64,7 @@ function ProductDetails() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
-
+ 
   useEffect(() => {
     if(error){
      alert.error(error);
@@ -51,7 +79,8 @@ function ProductDetails() {
       dispatch({type:NEW_REVIEW_RESET})
     }
     dispatch(getProductDetails(id));
-
+    dispatch(getAllReviews(id))
+    
   }, [dispatch, id,alert,error,reviewError,success]);
 
 
@@ -72,7 +101,9 @@ function ProductDetails() {
   const submitReviewToggle = () => {
     open? setOpen(false): setOpen(true);
   };
-
+  const SpeedToggle = () => {
+    speed? setSpeed(false): setSpeed(true);
+  };
   const reviewSubmitHandler = () => {
     const myForm = new FormData();
 
@@ -188,6 +219,30 @@ function ProductDetails() {
               </Button>
             </DialogActions>
           </Dialog>
+      {/* <h2>Review Form</h2> */}
+      <form onSubmit={handleSubmit}>
+        {/* <input type="text" name='id' placeholder='Product ID' value={id}  onChange={(e) => setId(e.target.value)}/> */}
+        <button className='senti' type="submit">Predict Sentiments</button>
+      </form>
+      {/* <div>{response && response.data.overall_sentiment}</div> */}
+      {/* <div>{reviews && reviews.review[0] && reviews.review.map((review,index) => <div key={index}>{review}</div>)}</div> */}
+  
+      <Dialog
+            aria-labelledby="simple-dialog-title"
+            open={speed}
+            onClose={SpeedToggle} // if we click anywhere else it closes
+          >
+            
+             <DialogTitle>Review Analysis</DialogTitle>
+            {response && <Speedometer data ={response.data}/>}
+             <DialogActions>
+              <Button onClick={SpeedToggle} color="secondary">
+                Cancel
+              </Button>
+              </DialogActions>
+          </Dialog>
+
+
       {product.reviews && product.reviews.length > 0 ? (
         <div className="reviews">
           {product.reviews.map((review) => (

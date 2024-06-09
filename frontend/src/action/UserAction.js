@@ -35,7 +35,8 @@ import { LOGIN_REQUEST,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
-  CLEAR_ERRORS,} from "../constants/UserConstants";
+  CLEAR_ERRORS,
+  LOGOUT_REQUEST,} from "../constants/UserConstants";
 
 
 
