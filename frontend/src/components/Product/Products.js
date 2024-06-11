@@ -5,9 +5,9 @@ import Loader from '../layout/Loader/Loader';
 import Metadata from '../layout/Metadata';
 import ProductCard from '../layout/Home/ProductCard';
 import "./Products.css";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
-import { Slider,Typography } from '@mui/material';
+import { Slider,Typography,Button } from '@mui/material';
 
 const categories = [
     "Laptop",
@@ -25,7 +25,7 @@ function Products() {
   const [price, setPrice] = useState([0,25000]);
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-
+  const navigate=useNavigate();
   const setCurrentPageNo = (pageNumber) => {
       setCurrentPage(pageNumber);
   }
@@ -60,6 +60,7 @@ function Products() {
 
       )}
        <div className='filterBox'>
+       <div> <Button variant="text" color="secondary" size="large" onClick={()=>{navigate("/recommend")}}>Upload TO Search</Button></div>
         <Typography>Price</Typography>
         <Slider
           value={price} // array  of min and max range

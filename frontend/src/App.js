@@ -41,6 +41,7 @@ import UpdateUser from './components/Admin/UpdateUser.js';
 import ProductReviews from './components/Admin/ProductReviews.js';
 import Sentiment from './components/Product/Sentiment.js';
 import Speedometer from './components/Product/Speedometer.js';
+import Recommend from './components/testing/Recommend.js';
 function App() {
  
   const {isAuthenticated,user}=useSelector((state)=>state.user);
@@ -100,6 +101,8 @@ function App() {
       {isAuthenticated==true &&  <Route  path='/admin/reviews' element={<ProductReviews/>}/>}
       { <Route  path='/sentiment' element={<Sentiment/>}/>}
       { <Route  path='/speed' element={<Speedometer/>}/>}
+      { <Route  path='/recommend' element={<Recommend/>}/>}
+
       
       
 

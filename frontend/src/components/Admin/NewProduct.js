@@ -29,7 +29,7 @@ const NewProduct = () => {
   const [Stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
-
+  const [ogfiles, setOgfiles] = useState([]);
   const categories = [
     "Laptop",
     "Footwear",
@@ -61,16 +61,23 @@ const NewProduct = () => {
     myForm.set("description", description);
     myForm.set("category", category);
     myForm.set("Stock", Stock);
-
+    console.log(images)
     images.forEach((image) => {
       myForm.append("images", image);
     });
+    console.log(ogfiles)
+    console.log(String(ogfiles[0].name))
     
+      myForm.append("original_names", `/images${ogfiles[0].name}`);
+  
     dispatch(createProduct(myForm));
   };
 
   const createProductImagesChange = (e) => {
     const files = Array.from(e.target.files); // whatever files we select it makes it into array as they are initially object
+     
+    
+    setOgfiles(files)
     setImages([]);
     setImagesPreview([]);
 
@@ -166,7 +173,7 @@ const NewProduct = () => {
                 multiple
               />
             </div>
-
+            
             <div id="createProductFormImage">
               {imagesPreview.map((image, index) => (
                 <img key={index} src={image} alt="Product Preview" />

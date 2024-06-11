@@ -5,7 +5,7 @@ const { response } = require("express")
 const cloudinary = require("cloudinary")
 //Create products--Admin
 exports.createProduct=CatchAsyncError(async (req,res,next) =>{
-
+  console.log(req.body.original_names)
     let images = [];
   
     if (typeof req.body.images === "string") {
@@ -21,12 +21,13 @@ exports.createProduct=CatchAsyncError(async (req,res,next) =>{
         folder: "products",
       });
   
-      imagesLinks.push({
+      imagesLinks.push({ 
         public_id: result.public_id,
         url: result.secure_url,
+        
       });
     }
-  
+     
     req.body.images = imagesLinks;
   
   

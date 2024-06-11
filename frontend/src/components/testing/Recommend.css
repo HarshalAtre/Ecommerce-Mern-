@@ -1,0 +1,65 @@
+.App {
+    text-align: center;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
+.App>form>input::file-selector-button {
+    border: none;
+    background-color: tomato;
+    font: 500 0.7vmax "Roboto";
+    border-radius: 5px;
+    padding: 0.6vmax 2vmax;
+    margin: 1vmax 0;
+    color: white;
+    cursor: pointer;
+    transition: all 0.5s;
+    outline: none;
+    margin-right: 20px;
+  }
+  .App>form>input::file-selector-button:hover{
+    background-color: rgb(197, 68, 45);
+    transform: scale(1.1);
+  }
+
+.recommendations img {
+    width: 150px;
+    margin: 10px;
+}
+.App>form>input{
+    border: none;
+    background-color: rgb(255, 255, 255);
+    font: 500 0.7vmax "Roboto";
+    border-radius: 20px;
+    padding: 0.6vmax 2vmax;
+    margin: 1vmax 0;
+    color: black;
+    outline: none;
+}
+.App>form{
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+.App>form>button{
+    border: none;
+    background-color: tomato;
+    font: 500 0.7vmax "Roboto";
+    border-radius: 5px;
+    padding: 0.6vmax 2vmax;
+    margin: 1vmax 0;
+    color: white;
+    cursor: pointer;
+    transition: all 0.5s;
+    outline: none;
+}
+.App>form>button:hover{
+    background-color: rgb(197, 68, 45);
+    transform: scale(1.1);
+}

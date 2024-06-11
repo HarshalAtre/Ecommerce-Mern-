@@ -29,8 +29,13 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+     
     },
   ],
+  original_names: {  // Add original image name
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
     required: [true, "Please Enter Product Category"],
