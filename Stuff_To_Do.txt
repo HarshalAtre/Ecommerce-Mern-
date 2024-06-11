@@ -1,3 +1,4 @@
 1. Sentiment Analysis and Upload to Search are in diffrent flask app , so to merge them 
 2 . Add Recommender system
 3 . Improve Over Frontend
+4. try to do Auto upload product, the fie is in same directory
