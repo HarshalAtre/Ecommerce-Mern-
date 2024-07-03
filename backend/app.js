@@ -10,10 +10,10 @@ const cookieParser= require('cookie-parser');
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 dotenv=require('dotenv')
-dotenv.config({path:'./config.env'})
+dotenv.config({path:'./.env'})
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
+ 
 // If you are using body-parser, use the following instead
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));  

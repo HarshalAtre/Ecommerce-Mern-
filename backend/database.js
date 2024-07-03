@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-require('dotenv').config(); // Load environment variables from .env file
+dotenv=require('dotenv')
+dotenv.config({path:'./config.env'})
 
 const connectToMongoDB = async () => {
   try {
-    const uri = process.env.MONGODB_URL;
+    const uri = "mongodb+srv://Harshal:3YJfLzhmv9RBiF6j@cluster0.50encmi.mongodb.net/Ecom";
     if (!uri) {
       throw new Error('MONGODB_URL is not defined in the environment variables');
     }

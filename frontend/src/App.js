@@ -42,6 +42,39 @@ import ProductReviews from './components/Admin/ProductReviews.js';
 import Sentiment from './components/Product/Sentiment.js';
 import Speedometer from './components/Product/Speedometer.js';
 import Recommend from './components/testing/Recommend.js';
+import BannerComponent from './new_comp/Banner.js';
+import NavbarComponent from './new_comp/NavBar.js';
+import ProductCard from './components/layout/Home/ProductCard.js';
+import ProductSlider from './new_comp/ProductSlider.js';
+import SimpleSlider from './new_comp/Carasoul.js';
+import MyCarousel from './new_comp/Carasoul.js';
+import ProductShowcase from './new_comp/Swiper.js';
+import Spider from './new_comp/Spidermon.jsx';
+import styled, { createGlobalStyle } from 'styled-components';
+import Dragger from './new_comp/Dragger.jsx';
+import NewReview from './new_comp/New_Review.jsx';
+import { Stack } from './new_comp/stack.jsx';
+import { Shapes } from './new_comp/Button/Shapes.jsx';
+import { Button } from '@mui/material';
+import Butt from './new_comp/Button/Buutt.jsx';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-image: repeating-linear-gradient(
+        to right, #2d2a44 0 1px, transparent 2px 200px
+      ),
+      repeating-linear-gradient(
+        to bottom, #2d2a44 0 1px, transparent 2px 200px
+      ),
+      radial-gradient(at 50% 50%, #2d2a44, #1d1b34);
+  }
+`;
+const items = [
+  { id: 1, subtitle: 'Subtitle 1', title: 'Title 1' },
+  { id: 2, subtitle: 'Subtitle 2', title: 'Title 2' },
+  { id: 3, subtitle: 'Subtitle 3', title: 'Title 3' },
+];
 function App() {
  
   const {isAuthenticated,user}=useSelector((state)=>state.user);
@@ -66,8 +99,9 @@ function App() {
   
   return (
     <>
+    <GlobalStyle/>
      <Router>
-
+      <NavbarComponent/>
       <Header/>
      {isAuthenticated&& <UserOption user={user}/>}
       <Routes>
@@ -102,6 +136,33 @@ function App() {
       { <Route  path='/sentiment' element={<Sentiment/>}/>}
       { <Route  path='/speed' element={<Speedometer/>}/>}
       { <Route  path='/recommend' element={<Recommend/>}/>}
+      { <Route  path='/banner' element={<BannerComponent/>}/>}
+      { <Route  path='/nav' element={<NavbarComponent/>}/>}
+      { <Route  path='/card' element={<ProductSlider/>}/>}
+      { <Route  path='/car' element={<MyCarousel/>}/>}
+      { <Route  path='/swipe' element={<ProductShowcase/>}/>}
+      {/* { <Route  path='/spider' element={<Spider/>}/>} */}
+      { <Route  path='/drag' element={<Dragger/>}/>}
+      { <Route  path='/button' element={<Butt/>}/>}
+
+      { <Route  path='/rev'  element={<NewReview items={items}/>}/>}
+
+      { <Route  path='/stack'  element={ 
+        
+        <div className='stack'> 
+        
+        <Stack/> <Stack/> <Stack/> <Stack/>
+        </div>}/>}
+
+
+
+
+
+
+
+
+
+
 
       
       
@@ -116,7 +177,7 @@ function App() {
      
 
       </Routes>
-    <Footer/>
+    {/* <Footer/> */}
     
     </Router>
     </>

@@ -1,3 +1,18 @@
+body{
+    
+  font-family: Poppins;
+  
+  background-image:
+  repeating-linear-gradient(
+      to right, #2d2a44 0 1px, transparent 2px 200px
+  ),
+  repeating-linear-gradient(
+      to bottom, #2d2a44 0 1px, transparent 2px 200px
+  ),
+  radial-gradient(
+      at 50% 50%, #2d2a44, #1d1b34
+  );
+}
 .banner {
     background-image: url("../../../images/cover.jfif");
     background-position: center;
@@ -56,11 +71,11 @@
     text-align: center;
     font-family: Roboto;
     font-size: 1.4vmax;
-    border-bottom: 1px solid rgba(21, 21, 21, 0.5);
+    border-bottom: 1px solid rgb(255, 255, 255);
     width: 20vmax;
     padding: 1vmax;
     margin: 5vmax auto;
-    color: rgb(0, 0, 0, 0.7);
+    color: rgb(255, 255, 255);
   }
   
   .container {

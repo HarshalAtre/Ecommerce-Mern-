@@ -1,7 +1,7 @@
 
 app=require('./app')
 dotenv=require('dotenv')
-dotenv.config({path:'./config.env'})
+dotenv.config({path:'./.env'})
 connectDB=require('./database.js')
 const cors = require('cors'); 
 const cloudinary=require("cloudinary");
@@ -14,7 +14,7 @@ process.on("uncaughtException", (err) => {
   });
   
 //Setting up the port
-const PORT=process.env.PORT || 3000
+const PORT=process.env.PORT 
 
 //database
 

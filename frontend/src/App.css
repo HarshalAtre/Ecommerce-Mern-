@@ -3,6 +3,33 @@
   padding: 0;
   scroll-behavior: smooth;
 }
+.stack{
+  display: flex;
+  /* flex-direction: row; */
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100vh;
+  width: 99.1vw;
+  background-color: #9e99991e;
+  backdrop-filter: blur(3px);
+  background-size: contain;
+  /* background-image: url("https://cdn.dribbble.com/users/1162077/screenshots/4840870/e-commerce-pattern.gif"); */
+  color: #ffffff;
+}
+@media (max-width: 600px) {
+  .stack {
+    flex-direction: column;
+    /* margin: 0; */
+  }
+}
+
+@media (min-width: 601px) {
+  .stack {
+    flex-direction: row;
+    /* margin-bottom: 5em; */
+  }
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
