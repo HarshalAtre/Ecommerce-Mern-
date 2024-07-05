@@ -19,5 +19,5 @@ router.route("/admin/user/:id")
 .put(isAuthtenticate,AuthorizeRole("admin"),updateUserRole)
 .delete(isAuthtenticate,AuthorizeRole("admin"),deleteUser)
 
-
+console.log("")
 module.exports = router;
