@@ -8,6 +8,8 @@ import "./Products.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 import { Slider,Typography,Button } from '@mui/material';
+import { Stack } from '../../new_comp/stack';
+import ProductSlider from '../../new_comp/ProductSlider';
 
 const categories = [
     "Laptop",
@@ -44,24 +46,25 @@ function Products() {
   }, [dispatch,keyword,currentPage,categorya,price,ratings]);
 
   return (
-    <Fragment>
+    <div style={{color:"white"}}>
       {loading ? (
         <Loader />
       ) : ( 
-        <Fragment>
+        <Fragment >
           <Metadata title="PRODUCTS -- Ecomerce" />
           <h2 className="productsHeading">Products</h2>
-          <div className="products">
-            {products && products.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+          <div >
+          {/* <div className='stack' style={{FlexDirection: window.innerWidth>600 ? "row" : "column"}}><Stack/> <Stack/> <Stack/> <Stack/></div> */}
+          <div className='newProducts'>
+            <ProductSlider isProduct={true} />
+          </div>
           </div>
         </Fragment>
 
       )}
-       <div className='filterBox'>
+       <div className='filterBox' >
        <div> <Button variant="text" color="secondary" size="large" onClick={()=>{navigate("/recommend")}}>Upload TO Search</Button></div>
-        <Typography>Price</Typography>
+        <h4>Price</h4>
         <Slider
           value={price} // array  of min and max range
           onChange={changePrice}
@@ -72,12 +75,13 @@ function Products() {
         />
 
        
-        <Typography>Categories</Typography>
-        <ul className="categoryBox">
+         <h4>Categories</h4>
+        <ul className="categoryBox" >
                 {categories.map((category) => (
                     <li
                     className="category-link"
                     key={category}
+                    
                     onClick={()=>{setCategory(category);}}
                     >
                             {category}
@@ -85,7 +89,7 @@ function Products() {
                 ))}
         </ul>
         <fieldset>
-              <Typography component="legend">Ratings Above</Typography>
+        <h5>Rating Above</h5>
               <Slider
                 value={ratings}
                 onChange={(e, newRating) => {
@@ -121,7 +125,7 @@ function Products() {
         }
        
       
-    </Fragment>
+    </div>
   );
 }
 

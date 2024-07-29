@@ -8,7 +8,7 @@ import { useAlert } from "react-alert";
 import { AddToCart } from '../action/CartAction';
 import { Button } from '@mui/material';
 import "./button.css";
-const ProductSlider = () => {
+const ProductSlider = ({isProduct}) => {
   const [sliderValue, setSliderValue] = useState(100000);
   const { products } = useSelector((state) => state.Product); 
   const alert = useAlert();
@@ -34,9 +34,9 @@ const ProductSlider = () => {
   };
   
   return (
-    <div className="product-slider">
+    <div className="product-slider" style={{paddingLeft:isProduct?"7vmax":"0"}}>
      
-      <div className="product-list">
+      <div className="product-list"  style={{paddingLeft:isProduct?"7vmax":"0"}}>
         {products.map((product, index) => {
           const options = {
             edit: false,
@@ -84,7 +84,7 @@ const ProductSlider = () => {
           );
         })}
       </div>
-      <div className="input">
+      {!isProduct  && <div className="input">
         <input
           type="range"
           min="50"
@@ -96,7 +96,7 @@ const ProductSlider = () => {
         />
         <span id="sliderValue">₹{sliderValue}</span>
        
-      </div>
+      </div>}
     </div>
   );
 };

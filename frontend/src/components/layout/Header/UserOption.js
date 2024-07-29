@@ -60,7 +60,7 @@ function UserOption({user}) {
     <SpeedDial
     ariaLabel='SpeedDial tooltip example'onClose={() => setOpen(false)}
     onOpen={() => setOpen(true)}
-    style={{ zIndex: "11" }}
+    style={{ zIndex: "11", marginTop:"20px"}}
     open={open}
     direction="down"
     className="speedDial"

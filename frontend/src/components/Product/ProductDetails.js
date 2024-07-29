@@ -11,6 +11,8 @@ import { useAlert } from "react-alert";
 import Metadata from '../layout/Metadata';
 import { ADD_TO_CART } from '../../constants/CartConstants';
 import { AddToCart } from '../../action/CartAction';
+import ReactStars from 'react-rating-stars-component';
+import {motion} from 'framer-motion';
 import {
   Dialog,
   DialogActions,
@@ -90,7 +92,12 @@ function ProductDetails() {
   };
 
   const increaseQuantity = () => {
-    if (quantity < product.Stock) setQuantity(quantity + 1); // should not exceed stock limit
+    console.log('Current quantity:', quantity);
+    console.log('Product Stock:', product.Stock);
+  
+    if (product && product.Stock && quantity < product.Stock) {
+      setQuantity(quantity + 1);
+    }
   };
 
   const addToCartHandler = () => {
@@ -116,9 +123,13 @@ function ProductDetails() {
     setOpen(false);
   };
   const options = {
-    value: product.ratings || 0, // Ensure ratings are handled correctly
-    readOnly: true,
-    precision: 0.5,
+    edit: false,
+            color: "rgba(255,248,72,0.3)",
+            activeColor: "yellow",
+            size: window.innerWidth < 60 ? 20 : 25, // Conditional size based on window width
+            isHalf: true,
+            customValue: 25, // Adding a custom value property; please replace "25" with your intended value
+            value: product.ratings // Dynamically setting the value property
   };
  
   return (
@@ -131,7 +142,11 @@ function ProductDetails() {
         <p>{error}</p>
       ) : (
         <div className="ProductDetails">
-          <div>
+          <motion.div
+          initial={{ opacity:0,x: -100 }}
+          whileInView={{opacity:1,x: 0 }}
+          transition={{ duration: 2,type:"spring", stiffness: 200 }}
+          >
             <Carousel className="caro">
               {product.images &&
                 product.images.map((item, i) => (
@@ -143,14 +158,18 @@ function ProductDetails() {
                   />
                 ))}
             </Carousel>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+          initial={{ opacity:0,x: 100 }}
+          whileInView={{opacity:1,x: 0 }}
+          transition={{ duration: 0.5,type:"spring", stiffness: 200 }}
+          >
             <div className="detailsBlock-1">
               <h2>{product.name}</h2>
-              <p>Product # {product._id}</p>
+              
             </div>
-            <div className="detailsBlock-2">
-              <Rating {...options} />
+            <div className="detailsBlock-2" >
+            <ReactStars {...options} />
               <span className="detailsBlock-2-span">
                 ({product.numOfReviews} Reviews)
               </span>
@@ -160,7 +179,7 @@ function ProductDetails() {
               <div className="detailsBlock-3-1">
                 <div className="detailsBlock-3-1-1">
                   <button onClick={decreaseQuantity}>-</button>
-                  <input readOnly type="number" value={quantity} />
+                  <span style={{backgroundColor:"white",color:"black",padding:"8px"}}>{quantity}</span>
                   <button onClick={increaseQuantity}>+</button>
                 </div>
                 <button
@@ -172,9 +191,9 @@ function ProductDetails() {
               </div>
 
               <p>
-                Status:
+                Status : 
                 <b className={product.Stock < 1 ? 'redColor' : 'greenColor'}>
-                  {product.Stock < 1 ? 'OutOfStock' : 'InStock'}
+                  {product.Stock < 1 ? ' OutOfStock' : ' InStock'}
                 </b>
               </p>
             </div>
@@ -186,7 +205,7 @@ function ProductDetails() {
             <button onClick={submitReviewToggle} className="submitReview">
               Submit Review
             </button>
-          </div>
+          </motion.div>
         </div>
       )}
         <Dialog
@@ -222,7 +241,7 @@ function ProductDetails() {
       {/* <h2>Review Form</h2> */}
       <form onSubmit={handleSubmit}>
         {/* <input type="text" name='id' placeholder='Product ID' value={id}  onChange={(e) => setId(e.target.value)}/> */}
-        <button className='senti' type="submit">Predict Sentiments</button>
+        { (product.reviews && product.reviews.length > 0 )  && <button className='senti' type="submit">Predict Sentiments</button>}
       </form>
       {/* <div>{response && response.data.overall_sentiment}</div> */}
       {/* <div>{reviews && reviews.review[0] && reviews.review.map((review,index) => <div key={index}>{review}</div>)}</div> */}
@@ -244,13 +263,15 @@ function ProductDetails() {
 
 
       {product.reviews && product.reviews.length > 0 ? (
-        <div className="reviews">
+        <motion.div className="reviews" style={{color:"white"}}
+        
+        >
           {product.reviews.map((review) => (
             <ReviewCard key={review._id} review={review} />
           ))}
-        </div>
+        </motion.div>
       ) : (
-        <p className="noReviews">No Reviews Yet</p>
+        <p style={{height:"40vh",paddingTop:"20vh"}} className="noReviews">No Reviews Yet</p>
       )}
     </Fragment>
   );

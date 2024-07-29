@@ -7,16 +7,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 50px;
+    margin-top: 20vh;
   }
   .emptyCart > svg {
     font-size: 5vmax;
-    color: tomato;
+    color: #C65BCF;
   }
-  .emptyCart > p {
+  /* .emptyCart > h2{
     font-size: 2vmax;
-  }
+    background-color: rgba(246, 246, 246, 0);
+  } */
   .emptyCart > a {
-    background-color: rgb(51, 51, 51);
+    background-color: rgba(51, 51, 51, 0);
     color: white;
     border: none;
     padding: 1vmax 3vmax;
@@ -27,10 +30,13 @@
   
   .cartPage {
     padding: 5vmax;
+    min-height: 100vh;
+    background-color: rgba(255, 255, 255, 0.028);
+    backdrop-filter: blur(10px);
   }
   
   .cartHeader {
-    background-color: tomato;
+    background-color: #C65BCF;
     width: 90%;
     box-sizing: border-box;
     margin: auto;
@@ -78,7 +84,7 @@
     text-align: center;
     outline: none;
     font: 400 0.8vmax "Roboto";
-    color: rgba(0, 0, 0, 0.74);
+    color: rgb(255, 255, 255);
   }
   
   .cartSubtotal {
@@ -89,7 +95,7 @@
     box-sizing: border-box;
     font: 300 1vmax cursive;
     justify-content: flex-end;
-    color: rgba(0, 0, 0, 0.753);
+    color: rgb(255, 247, 247);
   }
   
   .cartGrossProfit {
@@ -98,13 +104,16 @@
   }
   
   .cartGrossProfitBox {
-    border-top: 3px solid tomato;
+    border-top: 3px solid #C65BCF;
     margin: 1vmax 4vmax;
+    width: 33rem;
+    color: white;
     box-sizing: border-box;
     padding: 2vmax 0;
     font: 300 1vmax "Roboto";
     display: flex;
     justify-content: space-between;
+    transition: all 0.5s ease-in-out;
   }
   
   .checkOutBtn {
@@ -112,7 +121,7 @@
     justify-content: flex-end;
   }
   .checkOutBtn > button {
-    background-color: tomato;
+    background-color: #C65BCF;
     color: white;
     border: none;
     padding: 0.8vmax 4vmax;
@@ -121,8 +130,20 @@
     margin: 1vmax 4vmax;
     cursor: pointer;
     border-radius: 30px;
+    transition: all 0.5s ease-in-out;
   }
-  
+  .checkOutBtn > button:hover {
+    background-color: #c55bcfa9;
+    color: white;
+    border: none;
+    padding: 0.8vmax 4vmax;
+    width: 50%;
+    font: 300 0.8vmax "Roboto";
+    margin: 1vmax 4vmax;
+    cursor: pointer;
+    border-radius: 30px;
+    transform: scale(1.05);
+  }
   @media screen and (max-width: 600px) {
     .cartPage {
       padding: 0;

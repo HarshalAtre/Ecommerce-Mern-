@@ -67,7 +67,8 @@ function Dashboard() {
 
       
   return (
-    <div className="dashboard">
+    <div className="dashboard" style={{marginTop:"20px"
+    }}>
     <Metadata title="Dashboard - Admin Panel" />
     <Sidebar />
 

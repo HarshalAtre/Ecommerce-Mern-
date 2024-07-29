@@ -3,7 +3,7 @@
 }
 .btn_atc:hover{
 scale: 1.05;
-background-color: rgb(255, 85, 0);
+background-color: #AF47D2;
 color: #ffffff;
 }
 .product-slider * {
@@ -100,6 +100,10 @@ color: #ffffff;
 }
 .productC{
     text-decoration: none;
+    transition: all 0.3s ease-in;
+}
+.productC:hover{
+    scale: 1.05;
 }
 .product-slider .product {
     border: 1px solid #606060;

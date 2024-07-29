@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  align-items: center;
+  justify-content: center;
+  background-color: #ADE5F9;
+  min-height: 100vh;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+ul {
+  list-style: none;
+}
+
+/* Utilities */
+.profileCard::after,
+.profileCard img {
+  border-radius: 50%;
+}
+body,
+.profileCard,
+.profileStats {
+  display: flex;
+}
+
+.profileCard {
+  padding: 2.5rem 2rem;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, .5);
+  max-width: 600px;
+  min-height: 320px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, .15);
+  margin: 1rem;
+  position: relative;
+  transform-style: preserve-3d;
+  overflow: hidden;
+  transition: all .1s linear;
+}
+.profileCard:hover{
+  scale: 1.05;
+  box-shadow: 0 0 30px rgba(0, 0, 0, .3);
+}
+.profileCard::before,
+.profileCard::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+.profileCard::before {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #FFF;
+  border-radius: 10px;
+  top: -.7rem;
+  left: -.7rem;
+}
+.profileCard::after {
+  height: 15rem;
+  width: 15rem;
+  background-color: #4172f5aa;
+  top: -8rem;
+  right: -8rem;
+  box-shadow: 2rem 6rem 0 -3rem #FFF
+}
+
+.profileCard img {
+  width: 8rem;
+  min-width: 80px;
+  box-shadow: 0 0 0 5px #FFF;
+}
+
+.profileInfos {
+  margin-left: 1.5rem;
+}
+
+.profileName {
+  margin-bottom: 1rem;
+}
+.profileName h2 {
+  font-size: 1.3rem;
+}
+.profileName h4 {
+  font-size: .8rem;
+  color: #333
+}
+
+.profileText {
+  font-size: .9rem;
+  margin-bottom: 1rem;
+}
+
+.profileStats {
+  margin-bottom: 1rem;
+}
+.profileStats li {
+  min-width: 5rem;
+}
+.profileStats li h3 {
+  font-size: .99rem;
+}
+.profileStats li h4 {
+  font-size: .75rem;
+}
+
+.profileLinks button {
+  font-family: 'Poppins', sans-serif;
+  min-width: 120px;
+  margin: 5px;
+  padding: .5rem;
+  border: 1px solid #222;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all .25s linear;
+}
+
+
+@media screen and (max-width: 450px) {
+  .profileCard {
+    display: block;
+  }
+  .profileInfos {
+    margin-left: 0;
+    margin-top: 1.5rem;
+  }
+  .profileLinks button {
+    min-width: 100px;
+  }
+}

@@ -57,6 +57,8 @@ import { Stack } from './new_comp/stack.jsx';
 import { Shapes } from './new_comp/Button/Shapes.jsx';
 import { Button } from '@mui/material';
 import Butt from './new_comp/Button/Buutt.jsx';
+import UserProfileCard from './new_comp/New_Profile.jsx';
+
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -113,7 +115,7 @@ function App() {
         <Route  path='/login' element={<LoginSignUp/>}/>
 
       {/* Protected routes */}
-      {isAuthenticated==true && <Route  path='/account' element={<Profile/>}/>}
+      {isAuthenticated==true && <Route  path='/account' element={<UserProfileCard/>}/>}
       {isAuthenticated==true &&  <Route  path='/me/update' element={<UpdatedProfile/>}/>}
       {isAuthenticated==true &&  <Route  path='/password/update' element={<UpdatePassword/>}/>}
       {isAuthenticated==true &&  <Route  path='/Cart' element={<Cart/>}/>}
@@ -144,7 +146,7 @@ function App() {
       {/* { <Route  path='/spider' element={<Spider/>}/>} */}
       { <Route  path='/drag' element={<Dragger/>}/>}
       { <Route  path='/button' element={<Butt/>}/>}
-
+      {isAuthenticated==true && <Route  path='/userprofile' element={<UserProfileCard/>}/>}
       { <Route  path='/rev'  element={<NewReview items={items}/>}/>}
 
       { <Route  path='/stack'  element={ 

@@ -13,6 +13,32 @@ import MyCarousel from "../../../new_comp/Carasoul.js";
 import { motion } from "framer-motion";
 import Dragger from "../../../new_comp/Dragger.jsx";
 import { Stack } from "../../../new_comp/stack.jsx";
+import Faq from 'react-faq-component';
+const data = {
+  title: "FAQ",
+  rows: [
+    {
+      title: "So Many ECommerce are there Why should I choose this?",
+      content: "We focus on helping customers to make mindful decisions while buying a product with held of our highly accurate machine learning model features such as product review analysis, product price comparison, and product recommendation. We are the best in the market and we are proud of it.",
+    },
+    {
+      title: "What payment methods do you accept?",
+      content: "We accept all major credit cards, PayPal, and Apple Pay."
+    },
+    {
+      title: "How can I track my order?",
+      content: "Once your order is shipped, you will receive an email with a tracking number and a link to track your order."
+    },
+    {
+      title: "What is your return policy?",
+      content: "You can return any item within 30 days of purchase. The item must be in its original condition with all tags attached."
+    },
+    {
+      title: "Can I change or cancel my order?",
+      content: "You can change or cancel your order within 24 hours of placing it by contacting our customer service team."
+    }
+  ]
+};
 
 const Home = () => {
   const alert = useAlert(); // we can use useAlert here as we wrapped components in index.js
@@ -61,10 +87,15 @@ const Home = () => {
             <h2 className="homeHeading" style={{ marginTop: "7vmax" }}>
               Featured Products
             </h2>
-            <ProductSlider />
+            <ProductSlider isProduct={false} />
           </div>
         </>
       )}
+      <div className="faqContainer">
+       <div className="faq">
+        <Faq data={data}/>
+      </div>
+      </div>
     </div>
   );
 };
