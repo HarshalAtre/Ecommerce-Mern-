@@ -38,7 +38,9 @@ exports.Register= CatchAsyncError(async(req,res,next)=>{
     const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{ //token to save in local storage so we know user is logged in
       expiresIn:"1d"
   })
-  
+   // const options={ //specifying options for cookie so that we can directly pass in it
+     
+  //  }
   const option={ //specifying options for cookie so that we can directly pass in it
       httpOnly: true, // Helps prevent XSS // Send only over HTTPS
       sameSite: 'strict', // CSRF protection
