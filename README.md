@@ -19,7 +19,7 @@ Our **LSTM model**, integrated using Flask, delivers precise sentiment analysis 
 IntelliShop employs a robust recommendation system, combining **collaborative filtering** and **content-based filtering** algorithms. This engine presents 20 highly relevant product suggestions to each user with a **98% precision rate**, boosting user engagement and increasing conversion rates by **25%**.
 
 **CLICK ON IMAGE TO WATCH VIDEO**
-[![Watch the demo video](https://i.imgur.com/EH1TiPZ.png)](https://drive.google.com/drive/folders/1g02Z006jgaes8yTHb8rSk3Tsn-vzj5i9)
+[![Watch the demo video](https://i.imgur.com/EH1TiPZ.png)](https://drive.google.com/file/d/1enCMcyKCyJ0azmbR5qu_AjIex8DAqrmx/view)
 
 ## Technical Overview
 
