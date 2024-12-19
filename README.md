@@ -57,7 +57,7 @@ Set up environment variables for database connection, Stripe, and Nodemailer.
 
 Start the server:
 
-npm start
+'''npm start'''
 
 Run the Flask app for ML features in the ml directory:
 
