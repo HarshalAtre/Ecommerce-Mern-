@@ -2,7 +2,8 @@
 
 Welcome to **IntelliShop**, an innovative e-commerce platform designed to enhance mindful buying! With cutting-edge features like **image-based search** and a **review sentiment analyzer**, IntelliShop simplifies your shopping experience. Effortlessly find similar products using images and gain insights into what reviewers think, helping you make informed purchasing decisions.
 
-[Watch the demo video]([https://drive.google.com/file/d/<FILE_ID>/viwe](https://drive.google.com/file/d/1rDR7ahD0ctgO203OU7opNVgI3trHCpXC/view))
+[![Watch the demo video](https://i.imgur.com/Mal9btC.png)](https://drive.google.com/file/d/1rDR7ahD0ctgO203OU7opNVgI3trHCpXC/view)
+
 
 
 ## Features
