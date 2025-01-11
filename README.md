@@ -2,7 +2,7 @@
 
 Welcome to **IntelliShop**, an innovative e-commerce platform designed to enhance mindful buying! With cutting-edge features like **image-based search** and a **review sentiment analyzer**, IntelliShop simplifies your shopping experience. Effortlessly find similar products using images and gain insights into what reviewers think, helping you make informed purchasing decisions.
 
-## CLICK ON IMAGE BELOW TO WATCH VIDEO
+## CLICK ON IMAGE BELOW TO WATCH DEMO VIDEO 1
 [![Watch the demo video](https://i.imgur.com/Mal9btC.png)](https://drive.google.com/file/d/1jfsTqdPsGcyhsjXQpgng0RRqY6O7BgiC/view)
 
 
@@ -18,7 +18,7 @@ Our **LSTM model**, integrated using Flask, delivers precise sentiment analysis 
 ### Product Recommendation Engine
 IntelliShop employs a robust recommendation system, combining **collaborative filtering** and **content-based filtering** algorithms. This engine presents 20 highly relevant product suggestions to each user with a **98% precision rate**, boosting user engagement and increasing conversion rates by **25%**.
 
-##CLICK ON IMAGE BELOW TO WATCH VIDEO##
+## CLICK ON IMAGE BELOW TO WATCH DEMO VIDEO 2
 [![Watch the demo video](https://i.imgur.com/EH1TiPZ.png)](https://drive.google.com/file/d/1enCMcyKCyJ0azmbR5qu_AjIex8DAqrmx/view)
 
 ## Technical Overview
