@@ -7,7 +7,10 @@
     flex-direction: column;
 }
 
-
+.tit{
+    background: transparent !important;
+    color: white !important;
+}
 
 .App>form>input::file-selector-button {
     border: none;
@@ -26,7 +29,9 @@
     background-color: rgb(197, 68, 45);
     transform: scale(1.1);
   }
-
+.recommendations{
+    display: flex;
+}
 .recommendations img {
     width: 150px;
     margin: 10px;

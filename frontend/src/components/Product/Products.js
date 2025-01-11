@@ -63,7 +63,7 @@ function Products() {
 
       )}
        <div className='filterBox' >
-       <div> <Button variant="text" color="secondary" size="large" onClick={()=>{navigate("/recommend")}}>Upload TO Search</Button></div>
+       <div> <button className="UTS" onClick={()=>{navigate("/recommend")}}>Upload To Search</button></div>
         <h4>Price</h4>
         <Slider
           value={price} // array  of min and max range

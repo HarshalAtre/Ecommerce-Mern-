@@ -21,7 +21,7 @@ function Recommend() {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://127.0.0.1:5001/upload', formData, {
+            const response = await axios.post('http://127.0.0.1:5002/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -36,15 +36,15 @@ function Recommend() {
    
 
     return (
-        <div className="App">
-           <Typography fontSize={20}>Upload Image To Search For A Product</Typography>
+        <div className="App" > 
+           <p className='tit'>Upload Image To Search For A Product</p>
             <form onSubmit={handleSubmit}>
-                <input type="file" onChange={handleFileChange} />
+                <input type="file" onChange={handleFileChange} style={{background:"transparent",color:"white"}}/>
                 <button type="submit">Recommend</button>
             </form>
             <div className="recommendations">
                 {recommendations.map((rec, index) => (
-                    <img key={index} onClick={() => handleImageClick(rec.product_id)} src={`http://127.0.0.1:5001${rec.image_url}`} alt={`Recommendation ${index + 1}`} />
+                    <img key={index} onClick={() => handleImageClick(rec.product_id)} src={`http://127.0.0.1:5002${rec.image_url}`} alt={`Recommendation ${index + 1}`} />
                 ))}
             </div>
 

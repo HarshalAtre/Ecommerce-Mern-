@@ -7,7 +7,12 @@
   font: 500 1.5vmax "Roboto";
   text-align: center;
 }
-
+.UTS{
+  padding: 5px;
+  background: rgb(151, 38, 151);
+  color: white;
+  border-radius: 5px;
+}
 .products {
   display: flex;
   flex-wrap: wrap;

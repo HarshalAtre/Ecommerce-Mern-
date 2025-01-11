@@ -18,7 +18,7 @@ const Sentiment = () => {
         reviews.review.push(rev.comment)
     });
     try {
-      setResponse( await axios.post('http://127.0.0.1:5001/predict', reviews, {
+      setResponse( await axios.post('http://127.0.0.1:7000/predict', reviews, {
         headers: { 'Content-Type': 'application/json' }
       }))
       console.log(response.data.overall_sentiment)

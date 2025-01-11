@@ -16,7 +16,7 @@ const NavbarComponent = () => {
   return (
     <div className='custom-bodyn'>
       <header className="custom-header">
-        <Link to="/" className="custom-logo">Logo</Link>
+        <Link to="/" className="custom-logo">IntelliSense</Link>
         <i className='bx bx-menu' id="menu-icon" onClick={handleMenuClick}></i>
         <nav className={`custom-navbar ${isActive ? 'active' : ''}`}>
           <Link to="/" onClick={handleMenuClick}>Home</Link>
